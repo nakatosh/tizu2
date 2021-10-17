@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+ <meta charset="utf-8"/>
+ <title>接地測定メニュー</title>
+<link rel="manifest" href="manifest.json">
+
+<meta name="viewport" content="width=device-width,
+initial-scale=1.0,user-scalable=yes" />
+<link rel="stylesheet" href="index.css"/>
+<script>
+if('serviceWorker' in navigator){
+	navigator.serviceWorker.register("serviceworker.js").then(function(){
+		console.log("Service Worker is registered!!");
+	});
+}
+
+</script>
+</head>
+<body>
+<h3>測定メニュー</h3>
+1.CSV測定データ取込<br>
+<input type="file" name="file" id="file"><br>
+1.測定データ入力<br>
+<textarea  id="ttt" cols="40" rows="8" placeholder="キー番号,緯度,経度,を入力してください。"></textarea ><br>
+<input type="button" class="BT" value="入力データ取込" onclick="txtinp()"/><br>
+2.マップ表示<br>
+<input type="button" class="BT" onclick="location.href='./tizu.html'" value="マップ表示"/><br>
+3.データ出力<br>
+<input type="button" class="BT" value="csv出力" onclick="dCSV()"/><br>
+4.データ削除<br>
+<input type="button" class="BT" value="全データ削除" onclick="deleteAll()"/><br>
+<hr/>
+<h3>処理結果</h3>
+<div id="result"></div>
+
+<script type="text/javascript" src="index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<title>接地マップ</title>
+<!--スマビュー-->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<link rel="stylesheet" href="easy-button.css"/>
+<link rel="stylesheet" href="T.css"/>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script type="text/javascript" src="t.js"></script>
+<script type="text/javascript" src="easy-button.js"></script>
+
+</head>
+<body>
+<div id="map"></div>
+
+<input type="checkbox" id="pop-up">
+ <div class="overlay">
+  <div class="window">
+  <label class="close" for="pop-up">×</label>  	
+   <p class="text">
+    <td><input type="hidden" id="LAT" name="LAT" ></td>
+     <td><input type="hidden" id="LNG" name="LNG" ></td>
+     <table> 
+       <tr>
+       <td> <label>主キー</label></td>
+        </tr>
+      <tr>
+  	<td><input type="number"  id="POLNO" name="POLNO"  placeholder="キー" disabled></td>
+       </tr>
+      <tr>
+      	<td> <label>メモ</label></td>
+   </tr>
+      <tr>
+       <td><input  id="biko" name="biko"  class="t2" placeholder="メモ"></td>
+       </tr>
+       <tr>
+       	<td> <label>地面情報</label></td>
+   </tr>
+      <tr>
+       <form id ="tutibox"> 
+       <td colspan="3">
+         <input type="radio" name="tuti" value="1" checked><label for="radio-a">舗装 </label>
+         <input type="radio" name="tuti" value="2" ><label for="radio-b">  敷石 </label>
+         <input type="radio" name="tuti" value="0" ><label for="radio-c">  不要 </label>
+        </td>
+      </form>
+       </tr>
+      <tr>
+      	<td> <label>接地抵抗</label></td>
+   </tr>
+      <tr>
+       <td><input type="number" id="setti1" class="BT" name="setti1" placeholder="接地抵抗"/></td>
+       <td><input type="button" value="  登 録  " onclick="setValue()"/></td>
+      </tr>
+            <tr>
+             <td><input type="button" value="Google マップで経路表示" onclick="gmap()"/></td>
+            </tr>
+      </table>
+    </p>
+  </div>
+ </div>
+
+
+<script>
+
+   
+var db;
+   var indexedDB = window.indexedDB || window.mozIndexedDB || window.msIndexedDB;
+      if (indexedDB) {
+      // データベースを削除したい場合はコメントを外します。
+      //indexedDB.deleteDatabase("mydb");
+      var openRequest = indexedDB.open("mydb", 1.0);
+       openRequest.onupgradeneeded = function(event) {
+// データベースのバージョンに変更があった場合(初めての場合もここを通ります。)
+        db = event.target.result;
+           var store = db.createObjectStore("mystore", { keyPath: "mykey"});
+              store.createIndex("myvalueIndex", "myvalue");
+
+      }
+          openRequest.onsuccess = function(event) {
+         db = event.target.result;
+        }
+      } else {
+        window.alert("このブラウザではIndexed DataBase API は使えません。");
+              }
+
+
+
+//マーカークリックイベント
+function markerClick(e){ 
+  ck();
+  //マーカーから値をもらう
+  POLNO.value = e.sourceTarget.options.customID;            
+  LAT.value = e.latlng.lat;
+  LNG.value = e.latlng.lng;
+  map.setView([e.latlng.lat, e.latlng.lng]);
+　
+  //接地抵抗クリア 
+  setti1.value = "";
+  //接地抵抗に移動
+  document.getElementById('setti1').focus()
+  //DBから値をもらう
+  getValue(event); 
+
+}
+
+// 接地抵抗が入力済みなら取得する
+ function getValue(event) {
+  var key = document.getElementById("POLNO").value;
+  var result = document.getElementById("result");             
+  var transaction = db.transaction(["mystore"], "readwrite");
+  var store = transaction.objectStore("mystore");                  
+  var request = store.get(key);
+
+  request.onsuccess = function (event) {  
+
+    if (event.target.result === undefined) {} else {
+      //値あり
+      var aaa = Number(event.target.result.myvalue)
+      //0だったらヌル数字だったら数字
+      if(aaa===0){setti1.value ="";} else {
+      setti1.value = aaa;
+      biko.value = event.target.result.mybiko
+      
+      }
+    }
+  }
+}
+
+//登録  
+function setValue(event) {
+  var key = document.getElementById("POLNO").value;
+  var value = Number(document.getElementById("setti1").value);
+  var LAT = Number(document.getElementById("LAT").value);
+  var LNG = Number(document.getElementById("LNG").value);
+  //チェック
+  if (key >0){} else {alert('マーカーをクリックしてから登録してください!!');return;}
+  if (value >0){} else {alert('接地抵抗が未入力です');document.getElementById('setti1').focus();return;}
+  // form要素を取得
+  var element = document.getElementById( "tutibox" ) ;
+  // form要素内のラジオボタングループ(name="tuti")を取得
+  var radioNodeList = element.tuti ;
+  // 選択状態の値(value)を取得 (Bが選択状態なら"b"が返る)
+  var tuti = radioNodeList.value ;
+  var biko = document.getElementById("biko").value;
+  //                  
+  var transaction = db.transaction(["mystore"], "readwrite");
+  var store = transaction.objectStore("mystore")
+  var request = store.put({ mykey: key, myvalue: value, myLAT: LAT, myLNG: LNG, mytuti: tuti, mybiko: biko});
+  
+  //入力欄リセット
+  document.getElementById("POLNO").value = "";
+  document.getElementById("setti1").value = "";
+  document.getElementById("biko").value = "";
+  //再マーク
+   MAKall();
+  ck0();
+   request.onsuccess = function (event) {
+
+   }
+}
+
+// LDBからマーカ
+function MAKall(event) {
+return new Promise(function(resolve) {
+  var result = document.getElementById("result");                   
+  var transaction = db.transaction(["mystore"], "readwrite");
+  var store = transaction.objectStore("mystore");
+  var request = store.openCursor();
+
+  //マーカーレイヤー削除
+  MI.clearLayers();
+  KAN.clearLayers();
+
+  request.onsuccess = function (event) {
+    //リストがなかったら終了  
+    if(event.target.result == null) {
+    resolve()   
+    return;
+     }
+    var cursor = event.target.result;
+    var data = cursor.value;
+  
+    //値が入ってたら完了（グレー）、未入力ピンク
+    if(data.myvalue>0){
+    //L.marker([data.myLAT, data.myLNG],{icon:myIcon2,customID: data.mykey}).addTo(KAN).on('click', function(e) { markerClick(e);});
+    KAN.addLayer(
+      L.marker([data.myLAT, data.myLNG],{icon:myIcon2,customID: data.mykey})
+     .bindPopup(data.mykey)
+      .on('click', function(e) { markerClick(e);})
+    );
+    } else {
+      MI.addLayer(
+      L.marker([data.myLAT, data.myLNG],{icon:myIcon1,customID: data.mykey})
+      .bindPopup(data.mykey)
+      .on('click', function(e) { markerClick(e);})
+      );
+    }
+    cursor.continue();
+      }
+      })
+}
+
+
+// 現在地取得
+
+//地図を描く
+var gsiattr = "<a href='http://portal.cyberjapan.jp/help/termsofuse.html' target='_blank'>地理院タイル</a>";
+var gsi = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', { attribution: gsiattr ,maxZoom: 20,maxNativeZoom: 18});
+var gsip = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg', { attribution: gsiattr ,maxZoom: 20,maxNativeZoom: 18});
+var gsipale = L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', { attribution: gsiattr ,maxZoom: 20,maxNativeZoom: 18});
+var osm = L.tileLayer('https://tile.mierune.co.jp/mierune_mono/{z}/{x}/{y}.png', {
+    attribution: "Maptiles by <a href='http://mierune.co.jp/' target='_blank'>MIERUNE</a>, under CC BY. Data by <a href='http://osm.org/copyright' target='_blank'>OpenStreetMap</a> contributors, under ODbL.",
+    maxZoom: 20,
+    maxNativeZoom: 18
+});
+//
+var DKS = { color:'red', weight: 5 }
+var BKS = { color:'blue', weight: 5 }
+var MI = L.featureGroup();
+var KAN = L.featureGroup();
+var myIcon1 = L.divIcon({ className:'icon1'});
+var myIcon2 = L.divIcon({ className:'icon2'}); 
+var myIcon3 = L.divIcon({ className:'icon3'}); 
+var map = L.map('map', {center: [42.9577763,141.353986],zoom: 17,layers: [gsipale, MI, KAN]});
+var baseLayers = {"地理院地図": gsi,"淡色地図": gsipale,"航空写真": gsip,"オープンストリートマップ": osm};
+var overlays = { "完了":KAN,"未完":MI};
+
+//マーカーが全部入るイメージ
+function zenb(){
+map.fitBounds(MI.getBounds());   
+};
+
+
+//スケール設定
+L.control.scale({
+        imperial: false,
+        maxWidth: 300,
+}).addTo(map);
+    
+// 現在地表示ボタン
+var watch_id = 0;
+var curMarker = null;	// 現在地マーカー
+var currentWatchBtn = null;
+L.easyButton({		// 現在地表示ボタン
+	states: [{
+		stateName: 'current-watch',
+		icon:	'fas fa-map-marker-alt',
+		title:	 '現在地',
+		onClick: function(btn, map) {
+			currentWatch();
+			btn.state('current-watch-reset');
+			currentWatchBtn = btn;
+		}
+	}, {
+		stateName: 'current-watch-reset',
+		icon:	'fa fa-user',
+		title:	 '現在地オフ',
+		onClick: function(btn, map) {
+			currentWatchReset();
+			btn.state('current-watch');
+		}
+	}]
+}).addTo( map );
+
+
+function ck(){
+let element = document.getElementById('pop-up');
+element.checked = true;
+}
+function ck0(){
+let element = document.getElementById('pop-up');
+element.checked = false;
+}
+
+
+//現在地
+function currentWatch() {
+	function success(pos) {
+		var lat = pos.coords.latitude;
+		var lng = pos.coords.longitude;
+		map.setView([ lat,lng ]);
+		// 現在地に表示するマーカー
+		if (curMarker) {
+			map.removeLayer(curMarker);
+		}
+		curMarker = L.marker([lat, lng],{icon:myIcon3}).addTo(map);
+	}
+	function error(err) {
+		alert('位置情報を取得できませんでした。');
+	}
+	var options = {
+		enableHighAccuracy: true,
+		timeout: 5000,
+		maximumAge: 0
+	};
+	if (watch_id == 0) {
+		watch_id = navigator.geolocation.watchPosition(success, error, options); // 現在地情報を定期的に
+	}
+}
+function currentWatchReset() {
+	if (watch_id > 0) {
+		navigator.geolocation.clearWatch(watch_id);
+		watch_id = 0;
+	}
+	if (curMarker) {
+		map.removeLayer(curMarker);
+		curMarker = null;
+	}
+}
+L.control.layers(baseLayers, overlays).addTo(map);
+
+L.easyButton('<strong>未</strong>', function(btn, easyMap) {
+	currentWatchReset();
+	if (currentWatchBtn) {
+		currentWatchBtn.state('current-watch');
+		currentWatchBtn = null;
+	}
+mikan(); 
+}).addTo(map);
+L.easyButton('<strong>完</strong>', function(btn, easyMap) {
+	currentWatchReset();
+	if (currentWatchBtn) {
+		currentWatchBtn.state('current-watch');
+		currentWatchBtn = null;
+	}
+kanryo(); 
+}).addTo(map);
+
+
+//待つタイプ
+async function mikan(){
+await MAKall();
+await map.fitBounds(MI.getBounds());   
+};
+async function kanryo(){
+await MAKall();
+await map.fitBounds(KAN.getBounds());   
+};
+	
+//起動時スクリプト
+window.addEventListener("load", function() {
+mikan();
+});
+
+</script>
+
+</body>
+</html>

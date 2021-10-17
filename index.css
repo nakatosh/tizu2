@@ -1,0 +1,20 @@
+
+.BT{
+    display: block;
+    width: 90%;
+
+    box-sizing: border-box;
+  
+}
+
+
+
+input:focus, select:focus, textarea:focus {
+    background-color: #bde9ba;
+}
+
+html {
+
+    padding: 1; 
+    margin: 1;
+} 
