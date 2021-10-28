@@ -1,19 +1,28 @@
 {
   "name"              : "SettiSokuteiCsvMap",
   "short_name"        : "Setti",
-  "description"       : "/index.html",
-  "start_url"         : "/?pwa=1",
-
-  "display"           : "standalone",
-  "background_color"  : "#000000",
-  "theme_color"       : "#000000",
+  "Scope": "/tizu/",
+  
   "icons": [{
-      "src"           : "/setti.png",
-      "sizes"         : "192x192",
-      "type"          : "image/png"
+  "src": "setti256.png",
+    "sizes": "256x256",
+    "type": "image/png"
     }, {
-      "src"           : "/setti256.png",
-      "sizes"         : "256x256",
-      "type"          : "image/png"
-  }]
+    "src": "setti.png",
+    "sizes":"192x192",
+    "type":"image/png"
+   }, {
+      "src": "setti512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+  }
+  ],
+
+  "description":"/index.html",
+ 
+  "start_url": "./index.html",
+  "display"           : "standalone",
+  "background_color": "#e56c1b",
+  "theme_color"       : "#000000"
+ 
 }
