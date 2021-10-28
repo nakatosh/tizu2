@@ -1,20 +1,44 @@
 
 .BT{
-    display: block;
+ display: inline-block;
     width: 90%;
-
-    box-sizing: border-box;
-  
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align:center;
+    color: #ffffff;
+    background: #20303a;
 }
 
-
+.txt{
+ display: inline-block;
+    width: 90%;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align:center;
+ 
+}
 
 input:focus, select:focus, textarea:focus {
     background-color: #bde9ba;
 }
 
 html {
-
     padding: 1; 
     margin: 1;
 } 
+
+.file-btn {
+    display: inline-block;
+    width: 90%;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: #ffffff;
+    background: #20303a;
+    cursor: pointer;
+    text-align:center;
+}
+.file-btn input {
+    display: none;
+}

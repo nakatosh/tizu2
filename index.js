@@ -49,7 +49,7 @@ function getAll(event) {
         //測定値が入っているものだけ表示
         if(data.myvalue >0) {
           //result.innerHTML += cursor.key +  "," + data.myvalue + "," + data.myLAT + "," + data.myLNG  + "," + data.mytuti + "," + data.mybiko + "\n";
-         bbb += cursor.key +  "," + data.myvalue + "," + data.myLAT + "," + data.myLNG + "," + data.mytuti + "," + data.mybiko + "\n";
+         bbb += cursor.key +  "," + data.myvalue + "," + data.myLAT + "," + data.myLNG + "," + data.mytuti + "," + data.mybiko+ "," + data.myetc + "," + data.myGLAT + "," + data.myGLNG + "," + data.mynow + "\n";
         }
      cursor.continue();
     }
@@ -92,7 +92,7 @@ function downloadCSV(bbb) {
     //ダウンロードするCSVファイル名を指定する
     var filename = "download.csv";
     //CSVデータ
-    var data =  "電柱NO,接地測定値,緯度,経度,舗装,メモ" + "\n" + bbb
+    var data =  "電柱NO,接地測定値,緯度,経度,舗装,メモ,メモ2,測定緯度,測定経度,測定日時" + "\n" + bbb
     //BOMを付与する（Excelでの文字化け対策）
     var bom = new Uint8Array([0xef, 0xbb, 0xbf]);
     //Blobでデータを作成する
