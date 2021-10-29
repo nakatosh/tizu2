@@ -4,7 +4,7 @@
     padding: 0.3em;
     border: 0.3px solid #999;
     box-sizing: border-box;
-    
+    font-size: 16px;
 }
 
 .t1{
@@ -14,6 +14,7 @@
     border: 0px solid #999;
     box-sizing: border-box;
     margin: auto;
+font-size: 16px;
 }
 
 .t2{
@@ -23,6 +24,7 @@
     border: 0.1px solid #999;
     box-sizing: border-box;
     margin: auto;
+font-size: 16px;
 }
 
 table{
@@ -62,6 +64,7 @@ html, body {padding: 0; margin: 0} html, body,
 	height: 100vh;
 	top: 0;
 	left: 0;
+
 }
 .window {
 	width: 90vw;
@@ -75,7 +78,7 @@ html, body {padding: 0; margin: 0} html, body,
 	transform: translate(-50%, -50%);
 }
 .text {
-	font-size: 18px;
+	font-size: 16px;
 	margin: 0;
 }
 .close {
