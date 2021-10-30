@@ -23,15 +23,15 @@ var db;
 
       }
           openRequest.onsuccess = function(event) {
+
+
+//マーカークリックイベント
          db = event.target.result;
         }
       } else {
         window.alert("このブラウザではIndexed DataBase API は使えません。");
               }
 
-
-
-//マーカークリックイベント
 function markerClick(e){ 
   ck();
   //マーカーから値をもらう
@@ -105,9 +105,11 @@ function setValue(event) {
   var request = store.put({ mykey: key, myvalue: value, myLAT: LAT, myLNG: LNG, mytuti: tuti, mybiko: biko, myGLAT: GLAT, myGLNG: GLNG, mynow: now , myetc:etc});
   
   //入力欄リセット
-  document.getElementById("POLNO").value = "";
-  document.getElementById("setti1").value = "";
-  document.getElementById("biko").value = "";
+	document.getElementById("POLNO").value = "";
+	document.getElementById("setti1").value = "";
+	document.getElementById("biko").value = "";
+	//document.getElementById("tuti").value = "";
+	document.getElementById("etc").value = 0;
   //再マーク
    MAKall();
   ck0();
