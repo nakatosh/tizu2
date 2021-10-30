@@ -104,24 +104,25 @@ var curMarker = null;	// 現在地マーカー
 var currentWatchBtn = null;
 
 L.easyButton('fa fa-user', function(btn, easyMap) {
-   currentWatch();
+currentWatchReset();
+currentWatch();
 }).addTo(map);
 
 L.easyButton('<strong>未</strong>', function(btn, easyMap) {
-	currentWatchReset();
-	if (currentWatchBtn) {
-		currentWatchBtn.state('current-watch');
-		currentWatchBtn = null;
-	}
+currentWatchReset();
+if (currentWatchBtn) {
+currentWatchBtn.state('current-watch');
+currentWatchBtn = null;
+}
 mikan(); 
 }).addTo(map);
 
 L.easyButton('<strong>完</strong>', function(btn, easyMap) {
-	currentWatchReset();
-	if (currentWatchBtn) {
-		currentWatchBtn.state('current-watch');
-		currentWatchBtn = null;
-	}
+currentWatchReset();
+if (currentWatchBtn) {
+currentWatchBtn.state('current-watch');
+currentWatchBtn = null;
+}
 kanryo(); 
 }).addTo(map);
 
