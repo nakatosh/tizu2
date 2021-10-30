@@ -109,7 +109,7 @@ function setValue(event) {
 	document.getElementById("setti1").value = "";
 	document.getElementById("biko").value = "";
 	//document.getElementById("tuti").value = "";
-	document.getElementById("etc").value = 0;
+	document.getElementById("etc").selectedIndex = 0;
   //再マーク
    MAKall();
   ck0();
