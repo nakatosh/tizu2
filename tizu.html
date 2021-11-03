@@ -127,7 +127,7 @@ kanryo();
 }).addTo(map);
 
 L.easyButton('fa fa-reply-all', function(btn, easyMap) {
-history.go(-1);
+window.location.href = './index.html'; // 通常の遷移
 }).addTo(map);
 
 //起動時スクリプト
