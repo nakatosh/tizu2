@@ -122,10 +122,10 @@ function setValue(event) {
 	//document.getElementById("tuti").value = "";
 	document.getElementById("etc").selectedIndex = 0;
   document.getElementById("BSY").value = "";
-  document.getElementById("IV").value = 0;
-  document.getElementById("BRK").value = 0;
-  document.getElementById("TIK2").value = 0;
-  document.getElementById("TIK3").value = 0;
+  document.getElementById("IV").value = "";
+  document.getElementById("BRK").value = "";
+  document.getElementById("TIK2").value = "";
+  document.getElementById("TIK3").value = "";
   //再マーク
    MAKall();
   ck0();
