@@ -48,8 +48,8 @@ function getAll(event) {
         
         //測定値が入っているものだけ表示
         if(data.myvalue >0) {
-          //result.innerHTML += cursor.key +  "," + data.myvalue + "," + data.myLAT + "," + data.myLNG  + "," + data.mytuti + "," + data.mybiko + "\n";
-         bbb += cursor.key +  "," + data.myvalue + "," + data.myLAT + "," + data.myLNG + "," + data.mytuti + "," + data.mybiko+ "," + data.myetc + "," + data.myGLAT + "," + data.myGLNG + "," + data.mynow + "\n";
+          //mykey: key, myvalue: value, myBSY: BSY, myLAT: LAT, myLNG: LNG, mytuti: tuti, mybiko: biko, myGLAT: GLAT, myGLNG: GLNG, mynow: now ,myetc:etc, myIV:IV, myBRK:BRK, myTIK2:TIK2, myTIK3:TIK3
+         bbb += cursor.key + "," + data.myLAT + "," + data.myLNG +  "," + data.myvalue +  "," + data.myBSY + "," + data.mytuti + "," + data.mybiko+ "," + data.myetc + "," + data.myGLAT + "," + data.myGLNG + "," + data.mynow + "," + data.myIV + "," + data.myBRK + "," + data.myTIK2 + "," + data.myTIK3 + "\n";
         }
      cursor.continue();
     }
@@ -92,7 +92,7 @@ function downloadCSV(bbb) {
     //ダウンロードするCSVファイル名を指定する
     var filename = "download.csv";
     //CSVデータ
-    var data =  "電柱NO,接地測定値,緯度,経度,舗装,メモ,メモ2,測定緯度,測定経度,測定日時" + "\n" + bbb
+    var data =  "電柱NO,緯度,経度,接地測定値,B種,舗装,メモ,メモ2,測定緯度,測定経度,測定日時,IV,ボルコン,蓄力２号,蓄力３号" + "\n" + bbb
     //BOMを付与する（Excelでの文字化け対策）
     var bom = new Uint8Array([0xef, 0xbb, 0xbf]);
     //Blobでデータを作成する
@@ -119,21 +119,21 @@ function downloadCSV(bbb) {
     })
 } 
 //登録  
-function setValue(key,value,LAT,LNG,tuti,biko) {
+function setValue(key,LAT,LNG,value,BSY,tuti,biko,etc) {
   //チェック
   if (key >0){} else {return;}
   var transaction = db.transaction(["mystore"], "readwrite");
   var store = transaction.objectStore("mystore")
-  var request = store.put({ mykey: key, myvalue: value, myLAT: LAT, myLNG: LNG, mytuti: tuti, mybiko: biko});
+  var request = store.put({ mykey: key, myLAT: LAT,myLNG: LNG,myvalue: value,myBSY: BSY, mytuti: tuti, mybiko: biko, myetc: etc});
    request.onsuccess = function (event) {
    }
 }
 //貼付
-function paste() {
-var pasteArea = document.getElementsByTagName("comment")[0];
-pasteArea.focus();
-document.execCommand("paste");
-}
+//function paste() {
+//var pasteArea = document.getElementsByTagName("comment")[0];
+//pasteArea.focus();
+//document.execCommand("paste");
+//}
 
 //テキストデータ取込
 function txtinp() {
@@ -147,7 +147,7 @@ var cols = col.split(LF);
             for (var i = 0; i < cols.length; i++) {
     
               var data = cols[i].split(',');          
-                setValue(data[0],0,data[1],data[2],1,data[3]);
+                setValue(data[0],data[1],data[2],0,"","","","");
             }
 result.innerHTML = '入力したデータを取り込みました'; 
 }
@@ -174,7 +174,8 @@ if(window.File && window.FileReader && window.FileList && window.Blob) {
 		
             for (var i = 0; i < cols.length; i++) {
               var data = cols[i].split(',');
-                setValue(data[0],data[1],data[2],data[3],data[4],data[5]);
+                        //電柱NO,緯度,経度,接地測定値,B種,舗装,メモ,メモ2,測定緯度,測定経度,測定日時,IV,ボルコン,蓄力２号,蓄力３号  
+                setValue(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
             }
 	file.value = '';
 	result.innerHTML = 'CSVを取り込みました';    	

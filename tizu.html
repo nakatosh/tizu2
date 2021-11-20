@@ -19,53 +19,107 @@
 <script type="text/javascript" src="t.js"></script>
 <script type="text/javascript" src="easy-button.js"></script>
 
+<script>
+//単独が選択された時
+window.addEventListener('DOMContentLoaded', function(){
+// プルダウンメニューのselect要素を取得
+var etc = document.getElementById("etc");
+// イベント「change」を登録
+etc.addEventListener("change",function(){
+   Bsyu();
+});
+// イベント「input」を登録
+etc.addEventListener("input",function(){
+   Bsyu();
+});
+});
+
+</script>
+
 </head>
 <body>
 <div id="map"></div>
 
 <input type="checkbox" id="pop-up">
- <div class="overlay">
-  <div class="window">
-  <label class="close" for="pop-up">×</label>  	
-   <p class="text">
-    <td><input type="hidden" id="LAT" name="LAT" ></td>
-     <td><input type="hidden" id="LNG" name="LNG" ></td>
-     <table> 
-       <tr>
-       <td> <label>番号</label></td>
-        </tr>
-      <tr><td><input type="number"  id="POLNO" name="POLNO"  class="t1" placeholder="キー" disabled></td>
-      <td><input type="button" value="経路表示" onclick="gmap()"/></td></tr>
+<div class="overlay">
+<div class="window">
+<label class="close" for="pop-up">×</label>  	
+<p class="text">
+   <td><input type="hidden" id="LAT" name="LAT" ></td>
+   <td><input type="hidden" id="LNG" name="LNG" ></td>
+   <td><input type="hidden" id="GLAT" name="GLAT" class="t1" disabled></td>
+   <td><input type="hidden" id="GLNG" name="GLNG" class="t1" disabled></td>
+   <td><input type="hidden" id="noww" name="now" class="t1" disabled></td>
 
-      <tr><td><label>メモ</label></td></tr>
-      <tr><td><input  id="biko" name="biko" placeholder="メモ" class="t1"></td></tr>
-       <tr>      
-      <td><select name="etc" id="etc">
+ 
+   <br>
+   <table> 
+      <tr>
+         <td><label>番号</label></td>
+         <td colspan="2"><input type="number"  id="POLNO" name="POLNO"  class="t1" placeholder="キー" disabled></td>
+         <td><input type="button" value="経路表示" onclick="gmap()"/></td>
+      </tr>
+      <tr>
+         <td><label>メモ</label></td>
+         <td colspan="3"><input  id="biko" name="biko" placeholder="メモ" class="t1"></td>
+      </tr>
+      
+      <tr>
+         <td><label> </label></td>      
+         <td colspan="3"><select name="etc" id="etc" class="t1">
          <option value="0"></option>
          <option value="1">接地がありません</option>
          <option value="2">電柱がありません</option>
          <option value="3">共同に接続しました</option>
-      </select></td></tr>
-
-      <tr><td><label>地面情報</label></td></tr>
-      <tr><form id ="tutibox"><td colspan="3">
+         <option value="4">単独接地です</option>
+         </select></td>
+      </tr>
+      <tr>
+         <td><label>地際情報</label></td>
+  
+         <form id ="tutibox"><td colspan="3">
          <input type="radio" name="tuti" value="1" checked><label for="radio-a">舗装 </label>
-         <input type="radio" name="tuti" value="2" ><label for="radio-b">  敷石 </label>
-         <input type="radio" name="tuti" value="0" ><label for="radio-c">  不要 </label>
-      </td></form></tr>
+         <input type="radio" name="tuti" value="2" ><label for="radio-b"> 敷石</label>
+         <input type="radio" name="tuti" value="0" ><label for="radio-c"> 不要</label>
+       </td></form>
+      </tr>
+   </table>
+   <br>
+   <table>
+      <tr>
+         <td><label>測定値</label></td>
+         <td><input type="number" id="setti1" class="BT" name="setti1" placeholder="Ω"/></td>
+         <td><input type="number" id="BSY" name="BSY" class="BT" placeholder="B種" /></td>
+         <td><input type="button" value="  登  録  " onclick="setValue()"/></td>
+      </tr> 
+   </table>
 
-      <tr><td><label>接地抵抗</label></td></tr>
-      <tr><td><input type="number" id="setti1" class="BT" name="setti1" placeholder="接地抵抗"/></td>
-      <td><input type="button" value="   登  録   " onclick="setValue()"/></td></tr>
 
-      <tr><td><input type="number" id="GLAT" name="GLAT" class="t1" disabled></td></tr>
-      <tr><td><input type="number" id="GLNG" name="GLNG" class="t1"disabled></td></tr>
-      <tr><td><input  id="noww" name="now" class="t1" disabled></td></tr>
-      
-</table>
-    </p>
-  </div>
- </div>
+
+   
+   <table> 
+      <tr>
+      <td><label>使用材料</label></td>
+      </tr>
+      <tr>
+      <td><label>IV線</label></td>
+      <td><label>ボルコン</label></td>
+      <td><label>蓄力２号</label></td>
+      <td><label>蓄力３号</label></td>
+      </tr>
+    
+      <tr>
+         <td><input type="number" id="IV" name="IV" class="BT"  placeholder="ｍ"/></td>
+         <td><input type="number" id="BRK" name="BRK" class="BT" placeholder="個数"/></td>
+         <td><input type="number" id="TIK2" name="TIK2" class="BT" placeholder="個数"/></td>
+         <td><input type="number" id="TIK3" name="TIK3" class="BT" placeholder="個数"/></td>
+      </tr>
+
+   </table>
+</p>
+</div>
+</div>
+
 <script>
 
 //地図を描く
@@ -134,6 +188,9 @@ window.location.href = './index.html'; // 通常の遷移
 window.addEventListener("load", function() {
 mikan();
 });
+
+
+
 </script>
 
 </body>

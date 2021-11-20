@@ -55,10 +55,11 @@ function markerClick(e){
 // 接地抵抗が入力済みなら取得する
  function getValue(event) {
   var key = document.getElementById("POLNO").value;
-  var result = document.getElementById("result");             
+  //var result = document.getElementById("result");             
   var transaction = db.transaction(["mystore"], "readwrite");
   var store = transaction.objectStore("mystore");                  
   var request = store.get(key);
+
 
   request.onsuccess = function (event) {  
 
@@ -69,10 +70,15 @@ function markerClick(e){
       if(aaa===0){setti1.value ="";} else {
       setti1.value = aaa;
       biko.value = event.target.result.mybiko
-     
-
+      etc.value = event.target.result.myetc
+      IV.value = event.target.result.myIV
+      BRK.value = event.target.result.myBRK
+      TIK2.value = event.target.result.myTIK2
+      TIK3.value = event.target.result.myTIK3
+      BSY.value = event.target.result.myBSY    
       }
     }
+    Bsyu();
   }
 }
 
@@ -87,7 +93,12 @@ function setValue(event) {
   var GLNG = Number(document.getElementById("GLNG").value);
 
   var now = document.getElementById("noww").value;
-  var etc = Number(document.getElementById("etc").value);
+  var etc = document.getElementById("etc").value;
+  var BSY = Number(document.getElementById("BSY").value);
+  var IV = Number(document.getElementById("IV").value);
+  var BRK = Number(document.getElementById("BRK").value);
+  var TIK2 = Number(document.getElementById("TIK2").value);
+  var TIK3 = Number(document.getElementById("TIK3").value);
 
   //チェック
   if (key >0){} else {alert('マーカーをクリックしてから登録してください!!');return;}
@@ -102,7 +113,7 @@ function setValue(event) {
   //                  
   var transaction = db.transaction(["mystore"], "readwrite");
   var store = transaction.objectStore("mystore")
-  var request = store.put({ mykey: key, myvalue: value, myLAT: LAT, myLNG: LNG, mytuti: tuti, mybiko: biko, myGLAT: GLAT, myGLNG: GLNG, mynow: now , myetc:etc});
+  var request = store.put({ mykey: key, myvalue: value, myBSY: BSY, myLAT: LAT, myLNG: LNG, mytuti: tuti, mybiko: biko, myGLAT: GLAT, myGLNG: GLNG, mynow: now ,myetc:etc, myIV:IV, myBRK:BRK, myTIK2:TIK2, myTIK3:TIK3});
   
   //入力欄リセット
 	document.getElementById("POLNO").value = "";
@@ -110,6 +121,11 @@ function setValue(event) {
 	document.getElementById("biko").value = "";
 	//document.getElementById("tuti").value = "";
 	document.getElementById("etc").selectedIndex = 0;
+  document.getElementById("BSY").value = "";
+  document.getElementById("IV").value = 0;
+  document.getElementById("BRK").value = 0;
+  document.getElementById("TIK2").value = 0;
+  document.getElementById("TIK3").value = 0;
   //再マーク
    MAKall();
   ck0();
@@ -259,6 +275,12 @@ function ima() {
   noww.value =  year + "/" + month + "/" + date + " " + hour + ":" + minute + ":" + second;
 }
 
-
+function Bsyu(){
+  if (document.getElementById("etc").value === '4'){
+    document.getElementById('BSY').style.visibility = 'visible';
+ }else{
+    document.getElementById('BSY').style.visibility = 'hidden';
+ }
+}
 
 

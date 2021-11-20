@@ -22,9 +22,10 @@ if('serviceWorker' in navigator){
 1.測定データ入力<br>
 <textarea  id="ttt" class="txt"  cols="40" rows="8" placeholder="キー番号,緯度,経度,を入力してください。"></textarea ><br>
 <label class="BT" onclick="txtinp()">入力データ取込</label><br>
-2.マップ表示<br><label class="BT" onclick="location.href='./tizu.html'" >マップ表示</label><br>
-3.データ出力<br><label  class="BT" onclick="dCSV()">csv出力</label><br>
-4.データ削除<br><label  class="BT" onclick="deleteAll()">全データ削除</label><br>
+2.データ集計<br><label  class="BT" onclick="getCount()">データ数確認</label><br>
+3.マップ表示<br><label class="BT" onclick="location.href='./tizu.html'" >マップ表示</label><br>
+4.データ出力<br><label  class="BT" onclick="dCSV()">csv出力</label><br>
+5.データ削除<br><label  class="BT" onclick="deleteAll()">全データ削除</label><br>
 <hr/>
 <h3>処理結果</h3>
 <div id="result"></div>

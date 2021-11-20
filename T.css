@@ -1,14 +1,15 @@
 .BT{
     display: block;
-    width: 80%;
+    width: 95%;
     border: 0.3px solid #999;
     box-sizing: border-box;
     font-size: 16px;
+	text-align: right; 
 }
 
 .t1{
     display: block;
-    width: 80%;
+    width: 95%;
     border: 0px solid #999;
     box-sizing: border-box;
     font-size: 16px;
@@ -25,8 +26,13 @@
 }
 
 table{
-    margin:auto;
+	table-layout: fixed;
+	width: 95%;
+	margin-left: auto;
+    margin-right: auto;
 }
+
+
 
 input:focus, select:focus, textarea:focus {
     background-color: #bde9ba;
@@ -66,7 +72,7 @@ padding: 0; margin: 0
 }
 .window {
 	width: 90vw;
-	max-width: 320px;
+	max-width: 360px;
 	height: 350px;
 	background-color: #bbb8b8;
 	border-radius: 10px;
