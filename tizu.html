@@ -56,7 +56,7 @@ etc.addEventListener("input",function(){
    <table> 
       <tr>
          <td><label>番号</label></td>
-         <td colspan="2"><input type="number"  id="POLNO" name="POLNO"  class="t1" placeholder="キー" disabled></td>
+         <td colspan="2"><input type="number"  id="POLNO" name="POLNO"  class="t1" placeholder="キー" readonly></td>
          <td><input type="button" value="経路表示" onclick="gmap()"/></td>
       </tr>
       <tr>
@@ -68,8 +68,7 @@ etc.addEventListener("input",function(){
          <td><label> </label></td>      
          <td colspan="3"><select name="etc" id="etc" class="t1">
          <option value="0"></option>
-         <option value="1">接地がありません</option>
-         <option value="2">電柱がありません</option>
+         <option value="1">接地、電柱がありません</option>
          <option value="3">共同に接続しました</option>
          <option value="4">単独接地です</option>
          </select></td>
@@ -93,10 +92,7 @@ etc.addEventListener("input",function(){
          <td><input type="button" value="  登  録  " onclick="setValue()"/></td>
       </tr> 
    </table>
-
-
-
-   
+  
    <table> 
       <tr>
       <td><label>使用材料</label></td>
@@ -116,6 +112,8 @@ etc.addEventListener("input",function(){
       </tr>
 
    </table>
+
+
 </p>
 </div>
 </div>

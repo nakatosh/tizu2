@@ -32,7 +32,7 @@ var db;
         window.alert("このブラウザではIndexed DataBase API は使えません。");
               }
 
-function markerClick(e){ 
+function markerClick(e){
   ck();
   //マーカーから値をもらう
   POLNO.value = e.sourceTarget.options.customID;            
@@ -42,7 +42,7 @@ function markerClick(e){
   map.setView([e.latlng.lat, e.latlng.lng]);
 
   //現在地取得
-　GPS(); 
+  GPS();
   //接地抵抗クリア 
   setti1.value = "";
   //接地抵抗に移動
@@ -78,7 +78,7 @@ function markerClick(e){
       BSY.value = event.target.result.myBSY    
       }
     }
-    Bsyu();
+    Bsyu();  //単独の時B種を表示する
   }
 }
 
@@ -95,15 +95,21 @@ function setValue(event) {
   var now = document.getElementById("noww").value;
   var etc = document.getElementById("etc").value;
   var BSY = Number(document.getElementById("BSY").value);
-  var IV = Number(document.getElementById("IV").value);
-  var BRK = Number(document.getElementById("BRK").value);
-  var TIK2 = Number(document.getElementById("TIK2").value);
-  var TIK3 = Number(document.getElementById("TIK3").value);
+  var IV = document.getElementById("IV").value;
+  var BRK = document.getElementById("BRK").value;
+  var TIK2 = document.getElementById("TIK2").value;
+  var TIK3 = document.getElementById("TIK3").value;
 
   //チェック
   if (key >0){} else {alert('マーカーをクリックしてから登録してください!!');return;}
-  if (value >0){} else {alert('接地抵抗が未入力です');document.getElementById('setti1').focus();return;}
-  // form要素を取得
+  if (etc != 1 && value == 0){
+    alert('接地抵抗が未入力です');document.getElementById('setti1').focus();return;
+  } 
+  if (etc == 4 && BSY == 0 ) {
+    alert('単独接地の時は、A種とB種必須入力です。単独だけど1極しかない時は、単独接地を選択せずにそのまま入力してください。');document.getElementById('BSY').focus();return;
+  } 
+   
+  // form要素を取得 
   var element = document.getElementById( "tutibox" ) ;
   // form要素内のラジオボタングループ(name="tuti")を取得
   var radioNodeList = element.tuti ;
@@ -280,7 +286,12 @@ function Bsyu(){
     document.getElementById('BSY').style.visibility = 'visible';
  }else{
     document.getElementById('BSY').style.visibility = 'hidden';
- }
+}
+
+if (document.getElementById("etc").value === '1'){
+  document.getElementById('setti1').value = '999';
+
+}
 }
 
 
