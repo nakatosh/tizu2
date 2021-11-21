@@ -102,7 +102,7 @@ function setValue(event) {
 
   //チェック
   if (key >0){} else {alert('マーカーをクリックしてから登録してください!!');return;}
-  if (etc != 1 && value == 0){
+  if (value == 0){
     alert('接地抵抗が未入力です');document.getElementById('setti1').focus();return;
   } 
   if (etc == 4 && BSY == 0 ) {
@@ -282,15 +282,20 @@ function ima() {
 }
 
 function Bsyu(){
-  if (document.getElementById("etc").value === '4'){
+  const etc = document.getElementById("etc").value
+  const st = document.getElementById("setti1").value
+  if (etc === '4'){
     document.getElementById('BSY').style.visibility = 'visible';
     }else{
     document.getElementById('BSY').style.visibility = 'hidden';
   }
 
-  if (document.getElementById("etc").value === '1'){
+  if (etc === '1' && st !== '999'){
   document.getElementById('setti1').value = '999';
   }
+  if (etc != '1' && st == "999"){
+    document.getElementById('setti1').value = null;
+    }
 }
 
 
