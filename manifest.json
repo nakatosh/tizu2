@@ -4,10 +4,7 @@
   "Scope": "/tizu2/",
   
   "icons": [{
-  "src": "image-size144.png",
-    "sizes": "144x144",
-    "type": "image/png"
-    }, {
+
     "src": "image-size256.png",
     "sizes":"256x256",
     "type":"image/png"
