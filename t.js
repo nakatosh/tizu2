@@ -284,14 +284,13 @@ function ima() {
 function Bsyu(){
   if (document.getElementById("etc").value === '4'){
     document.getElementById('BSY').style.visibility = 'visible';
- }else{
+    }else{
     document.getElementById('BSY').style.visibility = 'hidden';
-}
+  }
 
-if (document.getElementById("etc").value === '1'){
+  if (document.getElementById("etc").value === '1'){
   document.getElementById('setti1').value = '999';
-
-}
+  }
 }
 
 
