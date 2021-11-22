@@ -294,4 +294,10 @@ document.getElementById('bsyu').style.visibility = 'visible';
     document.getElementById('bsyu').style.visibility = 'hidden';
   }
 
-
+if (etc === '1' && st !== '999'){
+  document.getElementById('setti1').value = '999';
+  }
+  if (etc != '1' && st == "999"){
+    document.getElementById('setti1').value = null;
+    }
+}
