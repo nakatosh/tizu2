@@ -282,27 +282,16 @@ function ima() {
 }
 
 function Bsyu(){
-
-  const etc = document.getElementById("etc").value
-
-  const st = document.getElementById("setti1").value
-
-  if (etc === '4'){
-
-    document.getElementById('BSY').style.visibility = 'visible';
-
-    document.getElementById('asyu').style.visibility = 'visible';
-
-    document.getElementById('bsyu').style.visibility = 'visible';
-
+const etc = document.getElementById("etc").value
+const st = document.getElementById("setti1").value
+if (etc === '4'){
+document.getElementById('BSY').style.visibility = 'visible';
+document.getElementById('asyu').style.visibility = 'visible';
+document.getElementById('bsyu').style.visibility = 'visible';
     }else{
-
     document.getElementById('BSY').style.visibility = 'hidden';
-
     document.getElementById('asyu').style.visibility = 'hidden';
-
     document.getElementById('bsyu').style.visibility = 'hidden';
-
   }
 
 
