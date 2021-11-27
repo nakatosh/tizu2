@@ -118,22 +118,18 @@ function downloadCSV(bbb) {
     }
     })
 } 
-//登録  
-function setValue(key,LAT,LNG,value,BSY,tuti,biko,etc) {
+//登録  NO 緯度 経度,数値,数値２,土,備考,備考２
+       //key,myLAT.myLNG.myvalu.myBSY.mytuti.mybiko.myetc.myGLAT.myGLNG.mynow.myIV.myBRK.myTIK2.myTIK3
+function setValue(key,LAT,LNG,value,BSY,tuti,biko,etc,GLAT,GLNG,NOWW,IV,BK,TK2,TK3) {
   //チェック
   if (key >0){} else {return;}
   var transaction = db.transaction(["mystore"], "readwrite");
   var store = transaction.objectStore("mystore")
-  var request = store.put({ mykey: key, myLAT: LAT,myLNG: LNG,myvalue: value,myBSY: BSY, mytuti: tuti, mybiko: biko, myetc: etc});
+  var request = store.put({ mykey: key, myLAT: LAT,myLNG: LNG,myvalue: value,myBSY: BSY, mytuti: tuti, mybiko: biko, myetc: etc ,myGLAT:GLAT,myGLNG:GLNG,mynow:NOWW,myIV:IV,myBRK:BK,myTIK2:TK2,myTIK3:TK3});
    request.onsuccess = function (event) {
    }
 }
-//貼付
-//function paste() {
-//var pasteArea = document.getElementsByTagName("comment")[0];
-//pasteArea.focus();
-//document.execCommand("paste");
-//}
+
 
 //テキストデータ取込
 function txtinp() {
@@ -147,7 +143,7 @@ var cols = col.split(LF);
             for (var i = 0; i < cols.length; i++) {
     
               var data = cols[i].split(',');          
-                setValue(data[0],data[1],data[2],0,"","","","");
+                setValue(data[0],data[1],data[2],0,"","","","","","","","","","","");
             }
 result.innerHTML = '入力したデータを取り込みました'; 
 }
@@ -173,9 +169,11 @@ if(window.File && window.FileReader && window.FileList && window.Blob) {
             var data = [];
 		
             for (var i = 0; i < cols.length; i++) {
+                
               var data = cols[i].split(',');
                         //電柱NO,緯度,経度,接地測定値,B種,舗装,メモ,メモ2,測定緯度,測定経度,測定日時,IV,ボルコン,蓄力２号,蓄力３号  
-                setValue(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
+                setValue(data[0],data[1],data[2],uc(data[3]),uc(data[4]),uc(data[5]),uc(data[6]),uc(data[7]),uc(data[8]),uc(data[9]),uc(data[10]),uc(data[11]),uc(data[12]),uc(data[13]),uc(data[14]));
+
             }
 	file.value = '';
 	result.innerHTML = 'CSVを取り込みました';    	
@@ -191,3 +189,11 @@ if(window.File && window.FileReader && window.FileList && window.Blob) {
     file.style.display = 'none';
     result.innerHTML = 'File APIに対応したブラウザでご確認ください';
 }
+
+function uc (aaa) {
+if (aaa === undefined) {
+    return null;
+}
+else {
+    return aaa;
+}}

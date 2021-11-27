@@ -59,7 +59,8 @@ function markerClick(e){
   var transaction = db.transaction(["mystore"], "readwrite");
   var store = transaction.objectStore("mystore");                  
   var request = store.get(key);
-
+  var element = document.getElementById( "tutibox" ) ;
+  var radioNodeList = element.tuti ;
 
   request.onsuccess = function (event) {  
 
@@ -75,7 +76,8 @@ function markerClick(e){
       BRK.value = event.target.result.myBRK
       TIK2.value = event.target.result.myTIK2
       TIK3.value = event.target.result.myTIK3
-      BSY.value = event.target.result.myBSY    
+      BSY.value = event.target.result.myBSY
+      radioNodeList[event.target.result.mytuti].checked = true ;
       }
     }
     Bsyu();  //単独の時B種を表示する
@@ -125,7 +127,9 @@ function setValue(event) {
 	document.getElementById("POLNO").value = "";
 	document.getElementById("setti1").value = "";
 	document.getElementById("biko").value = "";
-	//document.getElementById("tuti").value = "";
+
+  radioNodeList[0].checked = true ;
+
 	document.getElementById("etc").selectedIndex = 0;
   document.getElementById("BSY").value = "";
   document.getElementById("IV").value = "";
