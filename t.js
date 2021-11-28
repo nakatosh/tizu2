@@ -171,13 +171,13 @@ return new Promise(function(resolve) {
     //L.marker([data.myLAT, data.myLNG],{icon:myIcon2,customID: data.mykey}).addTo(KAN).on('click', function(e) { markerClick(e);});
     KAN.addLayer(
       L.marker([data.myLAT, data.myLNG],{icon:myIcon2,customID: data.mykey})
-     .bindPopup(data.mykey)
+     //.bindPopup(data.mykey)
       .on('click', function(e) { markerClick(e);})
     );
     } else {
       MI.addLayer(
       L.marker([data.myLAT, data.myLNG],{icon:myIcon1,customID: data.mykey})
-      .bindPopup(data.mykey)
+      //.bindPopup(data.mykey)
       .on('click', function(e) { markerClick(e);})
       );
     }
