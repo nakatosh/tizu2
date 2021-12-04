@@ -123,6 +123,9 @@ function setValue(event) {
   var store = transaction.objectStore("mystore")
   var request = store.put({ mykey: key, myvalue: value, myBSY: BSY, myLAT: LAT, myLNG: LNG, mytuti: tuti, mybiko: biko, myGLAT: GLAT, myGLNG: GLNG, mynow: now ,myetc:etc, myIV:IV, myBRK:BRK, myTIK2:TIK2, myTIK3:TIK3});
   
+  //再マーク
+  MAK();
+
   //入力欄リセット
 	document.getElementById("POLNO").value = "";
 	document.getElementById("setti1").value = "";
@@ -136,8 +139,7 @@ function setValue(event) {
   document.getElementById("BRK").value = "";
   document.getElementById("TIK2").value = "";
   document.getElementById("TIK3").value = "";
-  //再マーク
-   MAKall();
+
   ck0();
   currentWatchReset();
    request.onsuccess = function (event) {
@@ -186,7 +188,26 @@ return new Promise(function(resolve) {
       })
 }
 
+// LDBからマーカ
+function MAK() {
+  var key = document.getElementById("POLNO").value;
+  var value = Number(document.getElementById("setti1").value);
+  var LAT = Number(document.getElementById("LAT").value);
+  var LNG = Number(document.getElementById("LNG").value);
 
+  MI.eachLayer((layer)=> {if (key === layer.options.customID) {MI.removeLayer(layer);}});
+  KAN.eachLayer((layer)=> {if (key === layer.options.customID) {KAN.removeLayer(layer);}});  
+
+  if (value >0) {
+ 
+    KAN.addLayer(
+      L.marker([LAT, LNG],{icon:myIcon2,customID: key}).on('click', function(e) { markerClick(e);})  
+    );
+  }else{
+    MI.addLayer(L.marker([LAT, LNG],{icon:myIcon1,customID: key}).on('click', function(e) { markerClick(e);})  
+    );
+  }
+}
 
 //マーカーが全部入るイメージ
 function zenb(){
