@@ -5,16 +5,13 @@
 <title>接地マップ</title>
 <!--スマビュー-->
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
+<link rel="stylesheet" href="leaflet.css"/>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <link rel="stylesheet" href="easy-button.css"/>
 <link rel="stylesheet" href="T.css"/>
 
- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
+<script type="text/javascript" src="leaflet.js"></script>
+
 
 <script type="text/javascript" src="t.js"></script>
 <script type="text/javascript" src="easy-button.js"></script>
@@ -43,7 +40,7 @@ etc.addEventListener("input",function(){
 <input type="checkbox" id="pop-up">
 <div class="overlay">
 <div class="window">
-<label class="close" for="pop-up">×</label>  	
+<label class="close" for="pop-up">x</label>  	
 <p class="text">
    <td><input type="hidden" id="LAT" name="LAT" ></td>
    <td><input type="hidden" id="LNG" name="LNG" ></td>
@@ -59,20 +56,25 @@ etc.addEventListener("input",function(){
          <td colspan="2"><input type="number"  id="POLNO" name="POLNO"  class="t1" placeholder="キー" readonly></td>
          <td><input type="button" value="経路表示" onclick="gmap()"/></td>
       </tr>
+
+      <tr>
+         <td><label>連絡事項</label></td>      
+         <td colspan="3"><select name="etc" id="etc" class="t1">
+         <option value="0"></option>
+         <option value="1">設備・接地がありません</option>
+  <option value="2">単独→共同に接続済</option>
+         <option value="3">単独接地（共同あり）</option>
+         <option value="4">単独接地２極（共同なし）</option>
+         <option value="5">単独接地２極（A種共同あり）</option>
+<option value="6">単独接地２極（B種共同あり）</option>
+         </select></td>
+      </tr>
       <tr>
          <td><label>メモ</label></td>
          <td colspan="3"><input  id="biko" name="biko" placeholder="メモ" class="t1"></td>
       </tr>
       
-      <tr>
-         <td><label> </label></td>      
-         <td colspan="3"><select name="etc" id="etc" class="t1">
-         <option value="0"></option>
-         <option value="1">接地、電柱がありません</option>
-         <option value="3">共同に接続しました</option>
-         <option value="4">単独接地です</option>
-         </select></td>
-      </tr>
+
       <tr>
          <td><label>地際情報</label></td>
   
@@ -83,12 +85,11 @@ etc.addEventListener("input",function(){
          </td></form>
       </tr>
    </table>
-   <br>
 <table>
 <tr>
 <td> </td>
-<td><label id="asyu">Ａ種</label></td>
-<td><label id="bsyu">Ｂ種</label></td>
+<td><label id="asyu">A種</label></td>
+<td><label id="bsyu">B種</label></td>
 </tr>
 
 <tr>
@@ -101,13 +102,14 @@ etc.addEventListener("input",function(){
   
    <table border="1"> 
       <tr>
-      <td colspan="4"><label>使用材料</label></td>
+      <td colspan="5"><label>使用材料</label></td>
       </tr>
       <tr>
       <td><label>IV線</label></td>
-      <td><label>ボルコン</label></td>
-      <td><label>蓄力２号</label></td>
-      <td><label>蓄力３号</label></td>
+      <td><label>ﾎﾞﾙｺﾝ</label></td>
+      <td><label>蓄力２</label></td>
+      <td><label>蓄力３</label></td>
+	<td><label>ｽﾃﾊﾞﾝ</label></td>
       </tr>
     
       <tr>
@@ -115,6 +117,7 @@ etc.addEventListener("input",function(){
          <td><input type="number" id="BRK" name="BRK" class="BT" placeholder="個数"/></td>
          <td><input type="number" id="TIK2" name="TIK2" class="BT" placeholder="個数"/></td>
          <td><input type="number" id="TIK3" name="TIK3" class="BT" placeholder="個数"/></td>
+         <td><input type="number" id="SUTE" name="SUTE" class="BT" placeholder="本"/></td>
       </tr>
 
    </table>
@@ -139,15 +142,16 @@ var osm = L.tileLayer('https://tile.mierune.co.jp/mierune_mono/{z}/{x}/{y}.png',
 //
 var DKS = { color:'red', weight: 5 }
 var BKS = { color:'blue', weight: 5 }
+var moji = L.featureGroup();
 var MI = L.featureGroup();
 var KAN = L.featureGroup();
+
 var myIcon1 = L.divIcon({ className:'icon1'});
 var myIcon2 = L.divIcon({ className:'icon2'}); 
 var myIcon3 = L.divIcon({ className:'icon3'}); 
 var map = L.map('map', {center: [42.9577763,141.353986],zoom: 17,layers: [gsipale, MI, KAN]});
 var baseLayers = {"地理院地図": gsi,"淡色地図": gsipale,"航空写真": gsip,"オープンストリートマップ": osm};
-var overlays = { "完了":KAN,"未完":MI};
-
+var overlays = { "番号":moji,"完了":KAN,"未完":MI};
 L.control.layers(baseLayers, overlays).addTo(map);
 
 //スケール設定

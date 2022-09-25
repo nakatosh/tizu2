@@ -18,17 +18,19 @@ if('serviceWorker' in navigator){
 </head>
 <body>
 <h3>接地測定メニュー</h3>
-1.CSV測定データ取込<br><label for="file" class="file-btn">ｃｓｖファイル選択<input type="file" id="file" name="file" /></label><br>
-1.測定データ入力<br>
+<label for="file" class="file-btn">CSVファイルから測定データ作成<input type="file" id="file" name="file" /></label><br>
+入力欄<br>
 <textarea  id="ttt" class="txt"  cols="40" rows="8" placeholder="キー番号,緯度,経度,を入力してください。"></textarea ><br>
-<label class="BT" onclick="txtinp()">入力データ取込</label><br>
-2.データ集計<br><label  class="BT" onclick="getCount()">データ数確認</label><br>
-3.マップ表示<br><label class="BT" onclick="location.href='./tizu.html'" >マップ表示</label><br>
-4.データ出力<br><label  class="BT" onclick="dCSV()">csv出力</label><br>
-5.データ削除<br><label  class="BT" onclick="deleteAll()">全データ削除</label><br>
+<label class="BT" onclick="txtinp0()">入力欄から測定データ作成</label><br>
+<br><label  class="BT" onclick="getCount()">データ数確認</label><br>
+<br><label class="BT" onclick="location.href='./tizu.html'" >マップ表示</label><br>
+<br><label  class="BT" onclick="dCSV()">測定結果CSV出力</label><br>
+<br><label  class="BT" onclick="deleteAll3()">全データ削除</label><br>
 <hr/>
 <h3>処理結果</h3>
 <div id="result"></div>
 <script type="text/javascript" src="index.js"></script>
+
+
 </body>
 </html>
