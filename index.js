@@ -51,7 +51,7 @@ function getAll(event) {
         
         //測定値が入っているものだけ表示
         if(data.myvalue >0) {
-         bbb += cursor.key + "," + data.myLAT + "," + data.myLNG +  "," + data.myvalue +  "," + data.myBSY + "," + data.mytuti + "," + data.mybiko+ "," + data.myetc + "," + data.myGLAT + "," + data.myGLNG + "," + data.mynow + "," + data.myIV + "," + data.myBRK + "," + data.myTIK2 + "," + data.myTIK3 + "," + data.mySUTE + "\n";
+         bbb += cursor.key.slice(0,6) + "-" + cursor.key.slice(6,12) + "," + data.myLAT + "," + data.myLNG +  "," + data.myvalue +  "," + data.myBSY + "," + data.mytuti + "," + data.mybiko+ "," + data.myetc + "," + data.myGLAT + "," + data.myGLNG + "," + data.mynow + "," + data.myIV + "," + data.myBRK + "," + data.myTIK2 + "," + data.myTIK3 + "," + data.mySUTE + "\n";
         }
      cursor.continue();
     }
@@ -213,7 +213,7 @@ async function txtinp0(){
                 var data = [];
                 for (var i = 0; i < cols.length; i++) {
                     var data = cols[i].split(',');          
-                    setValue(data[0],data[1],data[2],uc(data[3]),uc(data[4]),uc(data[5]),uc(data[6]),uc(data[7]),uc(data[8]),uc(data[9]),uc(data[10]),uc(data[11]),uc(data[12]),uc(data[13]),uc(data[14]),uc(data[15]));
+                    setValue(data[0].replace(/-/g, ''),data[1],data[2],uc(data[3]),uc(data[4]),uc(data[5]),uc(data[6]),uc(data[7]),uc(data[8]),uc(data[9]),uc(data[10]),uc(data[11]),uc(data[12]),uc(data[13]),uc(data[14]),uc(data[15]));
                 }
     result.innerHTML = '入力したデータを取り込みました'; 
     }
@@ -240,7 +240,7 @@ async function txtinp0(){
                         for (var i = 0; i < cols.length; i++) {
                 var data = cols[i].split(',');
                             //電柱NO,緯度,経度,接地測定値,B種,舗装,メモ,メモ2,測定緯度,測定経度,測定日時,IV,ボルコン,蓄力２号,蓄力３号  
-                    setValue(data[0],data[1],data[2],uc(data[3]),uc(data[4]),uc(data[5]),uc(data[6]),uc(data[7]),uc(data[8]),uc(data[9]),uc(data[10]),uc(data[11]),uc(data[12]),uc(data[13]),uc(data[14]),uc(data[15]));
+                    setValue(data[0].replace(/-/g, ''),data[1],data[2],uc(data[3]),uc(data[4]),uc(data[5]),uc(data[6]),uc(data[7]),uc(data[8]),uc(data[9]),uc(data[10]),uc(data[11]),uc(data[12]),uc(data[13]),uc(data[14]),uc(data[15]));
 
                 }
         file.value = '';
