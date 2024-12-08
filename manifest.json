@@ -22,5 +22,6 @@
   "display"           : "standalone",
   "background_color": "#e56c1b",
   "theme_color"       : "#000000"
- 
+ "launch_handler": { "client_mode": "focus-existing"
+ }
 }
