@@ -1,4 +1,5 @@
 {
+  "id": "unique-app-id",
   "name"              : "SettiSokuteiCsvMap",
   "short_name"        : "Setti",
   "Scope": "/tizu/",
